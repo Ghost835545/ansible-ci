@@ -1,0 +1,17 @@
+stages:
+    - install_reqs_with_galaxy
+    - apply_role
+
+install galaxy:
+    stage: install_reqs_with_galaxy
+    tags:
+        - ansible_ini
+    script:
+        - ansible-galaxy install -r roles/requirements.yml --force
+
+deploy_role:
+        stage: apply_role
+        tags:
+            - ansible_ini 
+        script:
+            - ansible-playbook -i environments/dev1/inventory playbooks/docker.yml -D -u root
